@@ -1,0 +1,6 @@
+/vendor/
+.idea
+build/*
+!build/logs/.gitkeep
+phpunit.phar
+example.php
