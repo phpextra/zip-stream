@@ -45,17 +45,18 @@ class ZipStream implements StreamInterface
      */
     protected function getStream()
     {
-        if($this->stream === null){
+        if ($this->stream === null) {
             $descriptors = array(
                 0 => array('pipe', 'r'),    // stdin
                 1 => array('pipe', 'w'),    // stdout
                 2 => array('pipe', 'a')     // stderr
             );
 
-            $command = $this->createCommand();
+            $zipStreamCommand = new ZipStreamCommand($this->files);
+            $command = $zipStreamCommand->prepareCommand();
             $this->process = proc_open($command, $descriptors, $this->pipes);
 
-            if($this->process === false){
+            if ($this->process === false) {
                 throw new \RuntimeException(sprintf('Unable to create process: %s', $command));
             }
 
@@ -63,25 +64,6 @@ class ZipStream implements StreamInterface
         }
 
         return $this->stream;
-    }
-
-    /**
-     * @return string
-     */
-    protected function createCommand()
-    {
-        $absoluteFilenames = array();
-
-        foreach($this->files as $file){
-            $realFile = realpath($file);
-
-            if($realFile === false){
-                throw new \RuntimeException(sprintf('File does not exist: %s', $file));
-            }
-            $absoluteFilenames[] = $realFile;
-        }
-
-        return sprintf('zip -0 -j -q -r - %s', implode(' ', $absoluteFilenames));
     }
 
     /**
@@ -102,7 +84,7 @@ class ZipStream implements StreamInterface
     public function close()
     {
         $this->getStream()->close();
-        if($this->process){
+        if ($this->process) {
             proc_close($this->process);
         }
     }
