@@ -3,6 +3,8 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
+  - 7.0
 
 script: ./vendor/bin/phpunit -c ./phpunit.xml.dist ./tests/fixtures
 before_script:
