@@ -35,7 +35,7 @@ class ZipStream implements StreamInterface
     /**
      * @param array $files
      */
-    function __construct(array $files)
+    public function __construct(array $files)
     {
         $this->files = $files;
     }
