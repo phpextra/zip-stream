@@ -78,7 +78,7 @@ class ZipStream implements StreamInterface
             if($realFile === false){
                 throw new \RuntimeException(sprintf('File does not exist: %s', $file));
             }
-            $absoluteFilenames[] = $realFile;
+            $absoluteFilenames[] = escapeshellarg($realFile);
         }
 
         return sprintf('zip -0 -j -q -r - %s', implode(' ', $absoluteFilenames));
