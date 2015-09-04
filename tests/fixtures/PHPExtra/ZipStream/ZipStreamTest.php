@@ -30,7 +30,7 @@ class ZipStreamTest extends \PHPUnit_Framework_TestCase
     public function testCreateNewZipStreamFromTestFiles(array $files)
     {
         $stream = new \PHPExtra\ZipStream\ZipStream($files);
-        $this->assertEquals(517, strlen($stream->getContents()), 'Stream has wrong length');
+        $this->assertEquals(714, strlen($stream->getContents()), 'Stream has wrong length');
     }
 
     /**

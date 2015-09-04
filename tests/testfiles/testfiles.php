@@ -9,5 +9,6 @@ return array(
     __DIR__ . '/file1.txt',
     __DIR__ . '/file2.txt',
     __DIR__ . '/file3.txt',
+    __DIR__ . '/file with white chars.txt',
 );
  
