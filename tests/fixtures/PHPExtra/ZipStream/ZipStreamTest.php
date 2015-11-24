@@ -49,6 +49,25 @@ class ZipStreamTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $files
      */
+    public function testAddFileIntoZipStream(array $files)
+    {
+        $stream = new \PHPExtra\ZipStream\ZipStream($files);
+        $stream->addFile(__DIR__ . '/../../../testfiles/file4.txt');
+        $this->assertEquals(879, strlen($stream->getContents()), 'Stream has wrong length');
+    }
+
+    public function testAddWildcardIntoZipStream()
+    {
+        $stream = new \PHPExtra\ZipStream\ZipStream();
+        $stream->addFilesByWildcard(__DIR__ . '/../../../testfiles/*.txt');
+        $this->assertEquals(879, strlen($stream->getContents()), 'Stream has wrong length');
+    }
+
+    /**
+     * @dataProvider testFilesProvider
+     *
+     * @param array $files
+     */
     public function testZipStreamIsNotSeekable(array $files)
     {
         $stream = \PHPExtra\ZipStream\ZipStream::create($files);

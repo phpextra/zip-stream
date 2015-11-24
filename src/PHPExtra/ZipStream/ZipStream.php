@@ -20,6 +20,11 @@ class ZipStream implements StreamInterface
     /**
      * @var array
      */
+    private $wildcards = array();
+
+    /**
+     * @var array
+     */
     private $pipes;
 
     /**
@@ -35,7 +40,7 @@ class ZipStream implements StreamInterface
     /**
      * @param array $files
      */
-    function __construct(array $files)
+    function __construct(array $files = array())
     {
         $this->files = $files;
     }
@@ -81,7 +86,35 @@ class ZipStream implements StreamInterface
             $absoluteFilenames[] = escapeshellarg($realFile);
         }
 
+        foreach($this->wildcards as $wildcard){
+            $absoluteFilenames[] = $wildcard;
+        }
+
         return sprintf('zip -0 -j -q -r - %s', implode(' ', $absoluteFilenames));
+    }
+
+    /**
+     * Add file
+     *
+     * @param string $file
+     *
+     * @return void
+     */
+    public function addFile($file)
+    {
+        $this->files[] = $file;
+    }
+
+    /**
+     * Add wildcard
+     *
+     * @param string $wildcard
+     *
+     * @return void
+     */
+    public function addFilesByWildcard($wildcard)
+    {
+        $this->wildcards[] = $wildcard;
     }
 
     /**
